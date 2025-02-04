@@ -1,0 +1,4 @@
+name: AFAnvilPotions
+version: '${project.version}'
+main: ru.anton_flame.afanvilpotions.AFAnvilPotions
+api-version: '1.16'
