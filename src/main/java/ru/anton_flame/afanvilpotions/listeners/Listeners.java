@@ -1,8 +1,8 @@
 package ru.anton_flame.afanvilpotions.listeners;
 
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
+import net.kyori.adventure.text.format.TextColor;
+import org.bukkit.Color;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.event.EventHandler;
@@ -40,18 +40,18 @@ public class Listeners implements Listener {
             if (firstType == secondType) {
                 if (firstMeta.getBasePotionData().isUpgraded() && secondMeta.getBasePotionData().isUpgraded()) {
                     if (ConfigManager.enabledLevel3) {
-                        upgradePotion(event, inventory, ConfigManager.checkPermissionLevel3, "afanvilpotions.upgrade.level.3", firstItem, secondItem, ConfigManager.potionsLevel3);
+                        upgradePotion(event, inventory, ConfigManager.checkPermissionLevel3, "afanvilpotions.upgrade.level.3", firstItem, secondItem, ConfigManager.potionsLevel3, 2);
                     }
                 } else if (!firstMeta.getBasePotionData().isUpgraded() && !secondMeta.getBasePotionData().isUpgraded()) {
                     if (ConfigManager.enabledLevel2) {
-                        upgradePotion(event, inventory, ConfigManager.checkPermissionLevel2, "afanvilpotions.upgrade.level.2", firstItem, secondItem, ConfigManager.potionsLevel2);
+                        upgradePotion(event, inventory, ConfigManager.checkPermissionLevel2, "afanvilpotions.upgrade.level.2", firstItem, secondItem, ConfigManager.potionsLevel2, 1);
                     }
                 }
             }
         }
     }
 
-    private void upgradePotion(PrepareAnvilEvent event, AnvilInventory inventory, boolean checkPermission, String permission, ItemStack firstItem, ItemStack secondItem, ConfigurationSection potions) {
+    private void upgradePotion(PrepareAnvilEvent event, AnvilInventory inventory, boolean checkPermission, String permission, ItemStack firstItem, ItemStack secondItem, ConfigurationSection potions, int level) {
         PotionMeta firstMeta = (PotionMeta) firstItem.getItemMeta();
         PotionEffectType firstType = firstMeta.getBasePotionData().getType().getEffectType();
 
@@ -74,8 +74,14 @@ public class Listeners implements Listener {
                 if (firstType.getName().equalsIgnoreCase(potion)) {
                     ItemStack potionItem = new ItemStack(firstItem.getType(), 1);
                     PotionMeta potionMeta = (PotionMeta) potionItem.getItemMeta();
-                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.getByName(potion), potions.getInt(potion + ".duration"), 1), true);
-                    potionMeta.displayName(Component.text(Hex.color(potions.getString(potion + ".potion-name"))));
+                    potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.getByName(potion), potions.getInt(potion + ".duration") * 20, level), true);
+                    potionMeta.setDisplayName(Hex.color(potions.getString(potion + ".potion-name")));
+
+                    String[] color = potions.getString(potion + ".potion-color").split(",");
+                    int r = Integer.parseInt(color[0]);
+                    int g = Integer.parseInt(color[1]);
+                    int b = Integer.parseInt(color[2]);
+                    potionMeta.setColor(Color.fromRGB(r, g, b));
 
                     int firstItemAmount = firstItem.getAmount();
                     int secondItemAmount = secondItem.getAmount();
