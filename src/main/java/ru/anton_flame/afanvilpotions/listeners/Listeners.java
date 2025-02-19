@@ -1,7 +1,5 @@
 package ru.anton_flame.afanvilpotions.listeners;
 
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Color;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.HumanEntity;
@@ -95,7 +93,7 @@ public class Listeners implements Listener {
 
                     potionItem.setItemMeta(potionMeta);
                     event.setResult(potionItem);
-                    inventory.setRepairCost(potions.getInt(potion + ".exp-price"));
+                    inventory.setRepairCost(potions.getInt(potion + ".exp-price") * potionItem.getAmount());
 
                     if (remainingAmount > 0 && !remainingItems.containsKey(potionItem)) {
                         remainingItems.put(potionItem, remainingItem);

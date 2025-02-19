@@ -1,6 +1,6 @@
 package ru.anton_flame.afanvilpotions.utils;
 
-import net.md_5.bungee.api.ChatColor;
+import org.bukkit.ChatColor;
 
 import java.util.List;
 import java.util.regex.Matcher;

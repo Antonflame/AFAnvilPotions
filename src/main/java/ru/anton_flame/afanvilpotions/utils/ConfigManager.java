@@ -1,6 +1,7 @@
 package ru.anton_flame.afanvilpotions.utils;
 
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.util.List;
@@ -13,14 +14,15 @@ public class ConfigManager {
     public static ConfigurationSection potionsLevel2, potionsLevel3;
 
     public static void setupConfigValues(Plugin plugin) {
-        enabledLevel2 = plugin.getConfig().getBoolean("settings.level-2.enabled");
-        enabledLevel3 = plugin.getConfig().getBoolean("settings.level-3.enabled");
-        checkPermissionLevel2 = plugin.getConfig().getBoolean("settings.level-2.check-permission");
-        checkPermissionLevel3 = plugin.getConfig().getBoolean("settings.level-3.check-permission");
-        potionsLevel2 = plugin.getConfig().getConfigurationSection("settings.level-2.potions");
-        potionsLevel3 = plugin.getConfig().getConfigurationSection("settings.level-3.potions");
-        noPermission = Hex.color(plugin.getConfig().getString("messages.no-permission"));
-        reloaded = Hex.color(plugin.getConfig().getString("messages.reloaded"));
-        help = Hex.color(plugin.getConfig().getStringList("messages.help"));
+        FileConfiguration config = plugin.getConfig();
+        enabledLevel2 = config.getBoolean("settings.level-2.enabled");
+        enabledLevel3 = config.getBoolean("settings.level-3.enabled");
+        checkPermissionLevel2 = config.getBoolean("settings.level-2.check-permission");
+        checkPermissionLevel3 = config.getBoolean("settings.level-3.check-permission");
+        potionsLevel2 = config.getConfigurationSection("settings.level-2.potions");
+        potionsLevel3 = config.getConfigurationSection("settings.level-3.potions");
+        noPermission = Hex.color(config.getString("messages.no-permission"));
+        reloaded = Hex.color(config.getString("messages.reloaded"));
+        help = Hex.color(config.getStringList("messages.help"));
     }
 }
